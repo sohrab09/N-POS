@@ -1,157 +1,259 @@
-import { faProductHunt } from '@fortawesome/free-brands-svg-icons'
 import { faUser } from '@fortawesome/free-regular-svg-icons'
-import { faAngleRight, faCartShopping } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React from 'react'
-import logo from '../../images/logo.png'
+import React, { useState } from 'react'
+import { AnimatePresence, motion } from "framer-motion";
+import { FaBars, FaHome, FaLock, FaMoneyBill, FaUser } from "react-icons/fa";
+import './AppSidebar.css'
+import { Link } from 'react-router-dom';
+import { MdMessage } from "react-icons/md";
+import { BiAnalyse } from "react-icons/bi";
+import { AiFillHeart, AiTwotoneFileExclamation } from "react-icons/ai";
+import { BsCartCheck } from "react-icons/bs";
+import { BiCog } from "react-icons/bi";
+import SidebarMenu from './SidebarMenu';
+import { useEffect } from 'react';
+import { Get } from '../../http/http';
 
+const routes = [
+  {
+    path: "/",
+    name: "Dashboard",
+    icon: <FaHome />,
+  },
+  {
+    path: "/users",
+    name: "Users",
+    icon: <FaUser />,
+  },
+  {
+    path: "/messages",
+    name: "Messages",
+    icon: <MdMessage />,
+  },
+  {
+    path: "/analytics",
+    name: "Analytics",
+    icon: <BiAnalyse />,
+  },
+  {
+    path: "/file-manager",
+    name: "File Manager",
+    icon: <AiTwotoneFileExclamation />,
+    subRoutes: [
+      {
+        path: "/settings/profile",
+        name: "Profile ",
+        icon: <FaUser />,
+      },
+      {
+        path: "/settings/2fa",
+        name: "2FA",
+        icon: <FaLock />,
+      },
+      {
+        path: "/settings/billing",
+        name: "Billing",
+        icon: <FaMoneyBill />,
+      },
+    ],
+  },
+  {
+    path: "/order",
+    name: "Order",
+    icon: <BsCartCheck />,
+  },
+  {
+    path: "/settings",
+    name: "Settings",
+    icon: <BiCog />,
+    exact: true,
+    subRoutes: [
+      {
+        path: "/settings/profile",
+        name: "Profile ",
+        icon: <FaUser />,
+      },
+      {
+        path: "/settings/2fa",
+        name: "2FA",
+        icon: <FaLock />,
+      },
+      {
+        path: "/settings/billing",
+        name: "Billing",
+        icon: <FaMoneyBill />,
+      },
+    ],
+  },
+  {
+    path: "/saved",
+    name: "Saved",
+    icon: <AiFillHeart />,
+  },
+];
 
 const AppSidebar = () => {
+
+  const [isOpen, setIsOpen] = useState(false);
+  const toggle = () => setIsOpen(!isOpen);
+
+  const showAnimation = {
+    hidden: {
+      width: 0,
+      opacity: 0,
+      transition: {
+        duration: 0.5,
+      },
+    },
+    show: {
+      opacity: 1,
+      width: "auto",
+      transition: {
+        duration: 0.5,
+      },
+    },
+  };
+
+  const [menus, setMenus] = useState([]);
+  console.log("Menus ------------>>>>>>>> ", menus)
+
+  useEffect(() => {
+    Get('api/Menu/GetAll')
+      .then(res => {
+        console.log("Res ------------>>>>>>>> ", res.data.data)
+        setMenus(res.data.data)
+      })
+  }, [])
+
   return (
-    <div className="iq-sidebar">
+    <div className="main-container">
       {/* Logo and Name */}
-      <div className="iq-sidebar-logo d-flex justify-content-between">
-        <a href="/">
-          <div className="iq-light-logo">
-            <div className="iq-light-logo">
-              <img src={logo} className="img-fluid" alt="" />
-            </div>
-          </div>
-          <span style={{ textTransform: 'capitalize' }}>N POS</span>
-        </a>
-        <div className="iq-menu-bt-sidebar">
-          <div className="iq-menu-bt align-self-center">
-            <div className="wrapper-menu">
-              <div className="main-circle"><FontAwesomeIcon icon={faUser} /></div>
-              <div className="hover-circle"><FontAwesomeIcon icon={faUser} /></div>
-            </div>
+      <motion.div
+        animate={{
+          width: isOpen ? "260px" : "50px",
+          transition: {
+            duration: 0.5,
+            type: "spring",
+            damping: 10,
+          },
+        }}
+        className={`sidebar`}
+      >
+        <div className="top_section">
+          <AnimatePresence>
+            {isOpen && (
+              <motion.h1
+                variants={showAnimation}
+                animate="show"
+                exit="hidden"
+                className="logo"
+              >
+                N POS
+              </motion.h1>
+            )}
+          </AnimatePresence>
+
+          <div className="bars">
+            {
+              isOpen ? <FontAwesomeIcon icon={faUser} onClick={toggle} /> : <FaBars onClick={toggle} />
+            }
           </div>
         </div>
-      </div>
 
-      {/* Sidebar Menu */}
-      <div id="sidebar-scrollbar">
-        <nav className="iq-sidebar-menu">
-          <ul id="iq-sidebar-toggle" className="iq-menu">
+        {/* Menu */}
 
-            {/* Users Management */}
-            <li className="">
-              <a href="/" className="iq-waves-effect collapsed" data-toggle="collapse"
-                aria-expanded="false"><FontAwesomeIcon icon={faUser} style={{ marginRight: '5px' }} /> <span>Users Management</span>
-                <FontAwesomeIcon icon={faAngleRight} style={{ marginLeft: '5px' }} /></a>
-              <ul id="menu-design" className="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
-                <li><a href="/"><i className="ri-git-commit-line"></i>Users</a></li>
-                <li><a href="/"><i className="ri-text-spacing"></i>Customers</a></li>
-                <li><a href="/"><i className="ri-indent-decrease"></i>Suppliers</a></li>
-                <li><a href="/"><i className="ri-line-height"></i>Customer Type</a></li>
-              </ul>
-            </li>
+        {/* <section className="routes">
+          {routes.map((route, index) => {
+            if (route.subRoutes) {
+              return (
+                <SidebarMenu
+                  setIsOpen={setIsOpen}
+                  route={route}
+                  showAnimation={showAnimation}
+                  isOpen={isOpen}
+                />
+              );
+            }
 
-            {/* Products Management */}
-            <li className="">
-              <a href="#menu-design" className="iq-waves-effect collapsed" data-toggle="collapse"
-                aria-expanded="false"><FontAwesomeIcon icon={faProductHunt} style={{ marginRight: '5px' }} /><span>Products Management</span>
-                <FontAwesomeIcon icon={faAngleRight} style={{ marginLeft: '5px' }} /></a>
-              <ul id="menu-design" className="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
-                <li><a href="/"><i className="ri-git-commit-line"></i>Products</a></li>
-                <li><a href="/"><i className="ri-text-spacing"></i>Categories</a></li>
-                <li><a href="/"><i className="ri-indent-decrease"></i>Brands</a></li>
-                <li><a href="/"><i className="ri-line-height"></i>Units</a></li>
-                <li><a href="/"><i className="ri-line-height"></i>Attributes</a></li>
-                <li><a href="/"><i className="ri-line-height"></i>Barcode</a></li>
-                <li><a href="/"><i className="ri-line-height"></i>Pricing</a></li>
-              </ul>
-            </li>
 
-            {/* Purchase Management */}
-            <li className="">
-              <a href="#menu-design" className="iq-waves-effect collapsed" data-toggle="collapse"
-                aria-expanded="false"><FontAwesomeIcon icon={faCartShopping} style={{ marginRight: '5px' }} /><span>Purchase Management</span>
-                <FontAwesomeIcon icon={faAngleRight} style={{ marginLeft: '5px' }} /></a>
-              <ul id="menu-design" className="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
-                <li><a href="/"><i className="ri-git-commit-line"></i>Purchase Order</a></li>
-                <li><a href="/"><i className="ri-text-spacing"></i>Purchase Receive</a></li>
-                <li><a href="/"><i className="ri-indent-decrease"></i>Purchase Return</a></li>
-                <li><a href="/"><i className="ri-line-height"></i>Purchase Requisition</a></li>
-              </ul>
-            </li>
+            return (
+              <Link
+                to={route.path}
+                key={index}
+                className="link"
+                activeClassName="active"
+              >
+                <div className="icon">{route.icon}</div>
+                <AnimatePresence>
+                  {isOpen && (
+                    <motion.div
+                      variants={showAnimation}
+                      initial="hidden"
+                      animate="show"
+                      exit="hidden"
+                      className="link_text"
+                    >
+                      {route.name}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </Link>
+            );
+          })}
+        </section> */}
 
-            {/* Stock Management */}
-            <li className="">
-              <a href="#menu-design" className="iq-waves-effect collapsed" data-toggle="collapse"
-                aria-expanded="false"><FontAwesomeIcon icon={faCartShopping} style={{ marginRight: '5px' }} /><span>Stock Management</span>
-                <FontAwesomeIcon icon={faAngleRight} style={{ marginLeft: '5px' }} /></a>
-              <ul id="menu-design" className="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
-                <li><a href="/"><i className="ri-git-commit-line"></i>Stock Adjustment</a></li>
-                <li><a href="/"><i className="ri-text-spacing"></i>Stock Transfer</a></li>
-                <li><a href="/"><i className="ri-indent-decrease"></i>Stock Audit</a></li>
-                <li><a href="/"><i className="ri-line-height"></i>Stock Settings</a></li>
-              </ul>
-            </li>
+        {/* Menu */}
+        <section className='routes'>
+          {
+            menus.map((menu, index) => {
+              if (menu.parent_id === null) {
 
-            {/* Accounts Management */}
-            <li className="">
-              <a href="#menu-design" className="iq-waves-effect collapsed" data-toggle="collapse"
-                aria-expanded="false"><FontAwesomeIcon icon={faCartShopping} style={{ marginRight: '5px' }} /><span>Accounts Management</span>
-                <FontAwesomeIcon icon={faAngleRight} style={{ marginLeft: '5px' }} /></a>
-              <ul id="menu-design" className="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
-                <li><a href="/"><i className="ri-git-commit-line"></i>Transaction</a></li>
-                <li><a href="/"><i className="ri-text-spacing"></i>Fund Transfer</a></li>
-                <li><a href="/"><i className="ri-indent-decrease"></i>Account</a></li>
-                <li><a href="/"><i className="ri-line-height"></i>Accounts Config</a></li>
-              </ul>
-            </li>
+                // match parent id and mod id for sub menu
 
-            {/* Promotion Management */}
-            <li>
-              <a href="todo.html" class="iq-waves-effect" aria-expanded="false"><FontAwesomeIcon icon={faCartShopping} style={{ marginRight: '5px' }} /><span>Promotion Management</span></a>
-            </li>
+                /**
+                              const subMenu = menus.filter((sub) => sub.parent_id !== null && sub.parent_id === menu.mod_id);
+                              if (subMenu.length > 0) {
+                                return (
+                                  <SidebarMenu
+                                    setIsOpen={setIsOpen}
+                                    subMenu={subMenu}
+                                    showAnimation={showAnimation}
+                                    isOpen={isOpen}
+                                  />
+                                )
+                              }
+                 */
 
-            {/* Sales Management */}
-            <li className="">
-              <a href="#menu-design" className="iq-waves-effect collapsed" data-toggle="collapse"
-                aria-expanded="false"><FontAwesomeIcon icon={faCartShopping} style={{ marginRight: '5px' }} /><span>Sales Management</span>
-                <FontAwesomeIcon icon={faAngleRight} style={{ marginLeft: '5px' }} /></a>
-              <ul id="menu-design" className="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
-                <li><a href="/"><i className="ri-git-commit-line"></i>Sales</a></li>
-                <li><a href="/"><i className="ri-text-spacing"></i>Sale Returns</a></li>
-                <li><a href="/"><i className="ri-indent-decrease"></i>Print Challan</a></li>
-                <li><a href="/"><i className="ri-line-height"></i>Quotation</a></li>
-                <li><a href="/"><i className="ri-line-height"></i>Sales Person</a></li>
-                <li><a href="/"><i className="ri-line-height"></i>Sales Commission</a></li>
-                <li><a href="/"><i className="ri-line-height"></i>Order</a></li>
-              </ul>
-            </li>
 
-            {/* Delivery Management */}
-            <li className="">
-              <a href="#menu-design" className="iq-waves-effect collapsed" data-toggle="collapse"
-                aria-expanded="false"><FontAwesomeIcon icon={faCartShopping} style={{ marginRight: '5px' }} /><span>Delivery Management</span>
-                <FontAwesomeIcon icon={faAngleRight} style={{ marginLeft: '5px' }} /></a>
-              <ul id="menu-design" className="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
-                <li><a href="/"><i className="ri-git-commit-line"></i>Agents</a></li>
-                <li><a href="/"><i className="ri-text-spacing"></i>Delivery Person</a></li>
-                <li><a href="/"><i className="ri-indent-decrease"></i>Delivery Cost</a></li>
-                <li><a href="/"><i className="ri-line-height"></i>Delivery Orders</a></li>
-                <li><a href="/"><i className="ri-line-height"></i>COD Charge</a></li>
-              </ul>
-            </li>
+                return (
+                  <Link
+                    // to={route.path}
+                    key={index}
+                    className="link"
+                    activeClassName="active"
+                  >
+                    <AnimatePresence>
+                      {isOpen && (
+                        <motion.div
+                          variants={showAnimation}
+                          initial="hidden"
+                          animate="show"
+                          exit="hidden"
+                          className="link_text"
+                        >
+                          {menu.mod_name}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </Link>
+                )
+              }
+            })
+          }
+        </section>
+      </motion.div>
 
-            {/* Settings */}
-            <li className="">
-              <a href="#menu-design" className="iq-waves-effect collapsed" data-toggle="collapse"
-                aria-expanded="false"><FontAwesomeIcon icon={faCartShopping} style={{ marginRight: '5px' }} /><span>Settings</span>
-                <FontAwesomeIcon icon={faAngleRight} style={{ marginLeft: '5px' }} /></a>
-              <ul id="menu-design" className="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
-                <li><a href="/"><i className="ri-git-commit-line"></i>Stores</a></li>
-                <li><a href="/"><i className="ri-text-spacing"></i>Company Info</a></li>
-              </ul>
-            </li>
 
-          </ul>
-        </nav>
-        <div className="p-3"></div>
-      </div>
     </div>
   )
 }

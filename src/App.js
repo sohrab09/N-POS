@@ -20,7 +20,9 @@ function App() {
     <>
       <Suspense fallback={loading}>
         <Routes>
-          <Route path="*" name="Home" element={<DefaultLayout />} />
+          <Route path="/" element={<DefaultLayout />}>
+            <Route path="/home" element={<h1>Home</h1>} />
+          </Route>
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/register" element={<Register />} />
           <Route exact path="/elements" element={<Elements />} />
