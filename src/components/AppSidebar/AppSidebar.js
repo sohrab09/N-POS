@@ -2,95 +2,14 @@ import { faUser } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useState } from 'react'
 import { AnimatePresence, motion } from "framer-motion";
-import { FaBars, FaHome, FaLock, FaMoneyBill, FaUser } from "react-icons/fa";
+import { FaBars } from "react-icons/fa";
 import './AppSidebar.css'
 import { Link } from 'react-router-dom';
-import { MdMessage } from "react-icons/md";
-import { BiAnalyse } from "react-icons/bi";
-import { AiFillHeart, AiTwotoneFileExclamation } from "react-icons/ai";
-import { BsCartCheck } from "react-icons/bs";
-import { BiCog } from "react-icons/bi";
 import SidebarMenu from './SidebarMenu';
 import { useEffect } from 'react';
 import { Get } from '../../http/http';
 
-const routes = [
-  {
-    path: "/",
-    name: "Dashboard",
-    icon: <FaHome />,
-  },
-  {
-    path: "/users",
-    name: "Users",
-    icon: <FaUser />,
-  },
-  {
-    path: "/messages",
-    name: "Messages",
-    icon: <MdMessage />,
-  },
-  {
-    path: "/analytics",
-    name: "Analytics",
-    icon: <BiAnalyse />,
-  },
-  {
-    path: "/file-manager",
-    name: "File Manager",
-    icon: <AiTwotoneFileExclamation />,
-    subRoutes: [
-      {
-        path: "/settings/profile",
-        name: "Profile ",
-        icon: <FaUser />,
-      },
-      {
-        path: "/settings/2fa",
-        name: "2FA",
-        icon: <FaLock />,
-      },
-      {
-        path: "/settings/billing",
-        name: "Billing",
-        icon: <FaMoneyBill />,
-      },
-    ],
-  },
-  {
-    path: "/order",
-    name: "Order",
-    icon: <BsCartCheck />,
-  },
-  {
-    path: "/settings",
-    name: "Settings",
-    icon: <BiCog />,
-    exact: true,
-    subRoutes: [
-      {
-        path: "/settings/profile",
-        name: "Profile ",
-        icon: <FaUser />,
-      },
-      {
-        path: "/settings/2fa",
-        name: "2FA",
-        icon: <FaLock />,
-      },
-      {
-        path: "/settings/billing",
-        name: "Billing",
-        icon: <FaMoneyBill />,
-      },
-    ],
-  },
-  {
-    path: "/saved",
-    name: "Saved",
-    icon: <AiFillHeart />,
-  },
-];
+
 
 const AppSidebar = () => {
 
@@ -117,12 +36,20 @@ const AppSidebar = () => {
   const [menus, setMenus] = useState([]);
   console.log("Menus ------------>>>>>>>> ", menus)
 
+  const getAllMenus = () => {
+    try {
+      Get('api/Menu/GetAll')
+        .then(res => {
+          console.log("Res ------------>>>>>>>> ", res)
+          setMenus(res.data.data)
+        })
+    } catch (error) {
+      console.log("Get Menu Error ------->>>>> ", error)
+    }
+  };
+
   useEffect(() => {
-    Get('api/Menu/GetAll')
-      .then(res => {
-        console.log("Res ------------>>>>>>>> ", res.data.data)
-        setMenus(res.data.data)
-      })
+    getAllMenus()
   }, [])
 
   return (
@@ -161,69 +88,23 @@ const AppSidebar = () => {
         </div>
 
         {/* Menu */}
-
-        {/* <section className="routes">
-          {routes.map((route, index) => {
-            if (route.subRoutes) {
-              return (
-                <SidebarMenu
-                  setIsOpen={setIsOpen}
-                  route={route}
-                  showAnimation={showAnimation}
-                  isOpen={isOpen}
-                />
-              );
-            }
-
-
-            return (
-              <Link
-                to={route.path}
-                key={index}
-                className="link"
-                activeClassName="active"
-              >
-                <div className="icon">{route.icon}</div>
-                <AnimatePresence>
-                  {isOpen && (
-                    <motion.div
-                      variants={showAnimation}
-                      initial="hidden"
-                      animate="show"
-                      exit="hidden"
-                      className="link_text"
-                    >
-                      {route.name}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </Link>
-            );
-          })}
-        </section> */}
-
-        {/* Menu */}
         <section className='routes'>
           {
             menus.map((menu, index) => {
               if (menu.parent_id === null) {
 
-                // match parent id and mod id for sub menu
-
-                /**
-                              const subMenu = menus.filter((sub) => sub.parent_id !== null && sub.parent_id === menu.mod_id);
-                              if (subMenu.length > 0) {
-                                return (
-                                  <SidebarMenu
-                                    setIsOpen={setIsOpen}
-                                    subMenu={subMenu}
-                                    showAnimation={showAnimation}
-                                    isOpen={isOpen}
-                                  />
-                                )
-                              }
-                 */
-
+                const subMenu = menus.filter((sub) => menu.mod_id === sub.parent_id);
+                if (subMenu.length > 0) {
+                  return (
+                    <SidebarMenu
+                      setIsOpen={setIsOpen}
+                      subMenu={subMenu}
+                      showAnimation={showAnimation}
+                      isOpen={isOpen}
+                      menu={menu}
+                    />
+                  )
+                }
 
                 return (
                   <Link

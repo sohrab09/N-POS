@@ -35,7 +35,7 @@ const menuItemAnimation = {
     }),
 };
 
-const SidebarMenu = ({ route, showAnimation, isOpen, setIsOpen, subMenu }) => {
+const SidebarMenu = ({ route, showAnimation, isOpen, setIsOpen, subMenu, menu }) => {
     console.log("subMenu", subMenu)
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const toggleMenu = () => {
@@ -52,7 +52,7 @@ const SidebarMenu = ({ route, showAnimation, isOpen, setIsOpen, subMenu }) => {
         <>
             <div className="menu" onClick={toggleMenu}>
                 <div className="menu_item">
-                    <div className="icon">{route.icon}</div>
+                    {/* <div className="icon">{route.icon}</div> */}
                     <AnimatePresence>
                         {isOpen && (
                             <motion.div
@@ -62,20 +62,14 @@ const SidebarMenu = ({ route, showAnimation, isOpen, setIsOpen, subMenu }) => {
                                 exit="hidden"
                                 className="link_text"
                             >
-                                {route.name}
+                                {menu.mod_name}
                             </motion.div>
                         )}
                     </AnimatePresence>
                 </div>
                 {isOpen && (
                     <motion.div
-                        animate={
-                            isMenuOpen
-                                ? {
-                                    rotate: -90,
-                                }
-                                : { rotate: 0 }
-                        }
+                        animate={isMenuOpen ? { rotate: 0 } : { rotate: -90 }}
                     >
                         <FaAngleDown />
                     </motion.div>
@@ -90,11 +84,13 @@ const SidebarMenu = ({ route, showAnimation, isOpen, setIsOpen, subMenu }) => {
                         exit="hidden"
                         className="menu_container"
                     >
-                        {route.subRoutes.map((subRoute, i) => (
+                        {subMenu.map((subMenu, i) => (
                             <motion.div variants={menuItemAnimation} key={i} custom={i}>
-                                <NavLink to={subRoute.path} className="link">
-                                    <div className="icon">{subRoute.icon}</div>
-                                    <motion.div className="link_text">{subRoute.name}</motion.div>
+                                <NavLink
+                                    // to={subRoute.path}
+                                    className="link">
+                                    {/* <div className="icon">{subRoute.icon}</div> */}
+                                    <motion.div className="link_text">{subMenu.mod_name}</motion.div>
                                 </NavLink>
                             </motion.div>
                         ))}
