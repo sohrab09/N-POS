@@ -2,6 +2,7 @@ import React from 'react'
 import { Routes, Route } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import UserCreate from './views/pages/UserCreate/UserCreate';
+import CustomerCreate from './views/pages/CustomerCreate/CustomerCreate';
 
 
 // Containers
@@ -17,6 +18,7 @@ function App() {
       <Routes>
         <Route path="/" element={<DefaultLayout />}>
           <Route path="/user/create" element={<UserCreate />} />
+          <Route path="/customer/create" element={<CustomerCreate />} />
         </Route>
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/register" element={<Register />} />

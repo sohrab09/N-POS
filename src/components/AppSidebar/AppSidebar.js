@@ -1,19 +1,18 @@
-import { faUser } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useState } from 'react'
 import { AnimatePresence, motion } from "framer-motion";
-import { FaBars } from "react-icons/fa";
 import './AppSidebar.css'
 import { Link } from 'react-router-dom';
 import SidebarMenu from './SidebarMenu';
 import { useEffect } from 'react';
 import { Get } from '../../http/http';
+import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 
 
 
 const AppSidebar = () => {
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const toggle = () => setIsOpen(!isOpen);
 
   const showAnimation = {
@@ -82,7 +81,7 @@ const AppSidebar = () => {
 
           <div className="bars">
             {
-              isOpen ? <FontAwesomeIcon icon={faUser} onClick={toggle} /> : <FaBars onClick={toggle} />
+              isOpen ? <FontAwesomeIcon icon={faAngleLeft} onClick={toggle} /> : <FontAwesomeIcon icon={faAngleRight} onClick={toggle} />
             }
           </div>
         </div>
