@@ -34,7 +34,7 @@ const AppSidebar = () => {
   };
 
   const [menus, setMenus] = useState([]);
-  console.log("Menus ------------>>>>>>>> ", menus)
+  // console.log("Menus ------------>>>>>>>> ", menus)
 
   const getAllMenus = () => {
     try {
@@ -90,6 +90,7 @@ const AppSidebar = () => {
         {/* Menu */}
         <section className='routes'>
           {
+            // eslint-disable-next-line array-callback-return
             menus.map((menu, index) => {
               if (menu.parent_id === null) {
 

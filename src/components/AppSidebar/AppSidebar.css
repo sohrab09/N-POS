@@ -6,6 +6,7 @@
 
 .main-container {
   display: flex;
+  /* position: fixed; */
 }
 main {
   padding: 10px;
@@ -49,26 +50,31 @@ main {
   margin-top: 15px;
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  color: #000;
+  gap: 10px;
+  cursor: pointer;
 }
+
 .link {
   display: flex;
-  color: hsl(253deg 61% 85%);
+  color: #fff;
   gap: 10px;
   padding: 5px 10px;
   border-right: 4px solid transparent;
   transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
 }
+
 .link:hover {
   text-decoration: none;
   border-right: 4px solid white;
   background: hsl(253deg 61% 55%);
   transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+  color: #fff;
 }
 .active {
   border-right: 4px solid white;
   background: hsl(253deg 61% 55%);
+  transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+  border-radius: 0px 10px 10px 0px;
 }
 .link_text {
   white-space: nowrap;
