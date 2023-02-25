@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Get, Post } from '../../../http/http'
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const sourceChoice = [
@@ -11,6 +12,14 @@ const sourceChoice = [
 ]
 
 const CustomerCreate = () => {
+
+    const toastOptions = {
+        position: "bottom-center",
+        autoClose: 2000,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+    };
 
 
     // All States Here
@@ -83,6 +92,7 @@ const CustomerCreate = () => {
 
     // All Functions Here
 
+    // get All Customer Type
     useEffect(() => {
         const getAllCustomerTypes = () => {
             try {
@@ -98,6 +108,7 @@ const CustomerCreate = () => {
         getAllCustomerTypes()
     }, []);
 
+    // get All Gender
     useEffect(() => {
         const getGenderTypes = () => {
             try {
@@ -113,31 +124,100 @@ const CustomerCreate = () => {
         getGenderTypes()
     }, [])
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        const data = {
-            customer_id: customerId,
-            customer_type_id: +customerType,
-            full_name: fullName,
-            email: email,
-            phone: +phone,
-            gender: gender,
-            image: image,
-            source_id: +source,
-            note: note,
-        };
+    // Form Validation
 
-        console.log("data ------------->>>>>>>>>> ", data)
-
-        try {
-            Post('api/Customer/Add', data)
-                .then((res) => {
-                    console.log("Customer Create Response ----->>>>>", res)
-                })
-        } catch (error) {
-            console.log("Customer Create Error ----->>>>>", error)
+    const validateForm = () => {
+        if (fullName.length > 32) {
+            toast.error("Full Name is too long, Max 32 character", toastOptions);
+            return false;
+        } else if (fullName === '' || fullName === undefined || fullName === null) {
+            toast.error("Full Name is required", toastOptions);
+            return false;
+        }
+        else if (!fullName.match(/^[a-zA-Z ]*$/)) {
+            toast.error("No need special character in full name", toastOptions);
+            return false;
+        } else if (customerId.length > 24) {
+            toast.error("Customer ID is too long, Max 24 character", toastOptions);
+            return false;
+        } else if (customerId === '' || customerId === undefined || customerId === null) {
+            toast.error("Customer ID is required", toastOptions);
+            return false;
+        } else if (!customerId.match(/^[a-zA-Z0-9]*$/)) {
+            toast.error("No need special character in customer ID", toastOptions);
+            return false;
+        } else if (email.length > 32) {
+            toast.error("Email is too long, Max 32 character", toastOptions);
+            return false;
+        } else if (phone.length > 16) {
+            toast.error("Phone is too long, Max 16 character", toastOptions);
+            return false;
+        } else if (phone === '' || phone === undefined || phone === null) {
+            toast.error("Phone is required", toastOptions);
+            return false;
+        } else if (!phone.match(/^[0-9]*$/)) {
+            toast.error("No need special character in phone number", toastOptions);
+            return false;
+        } else if (note.length > 256) {
+            toast.error("Note is too long, Max 256 character", toastOptions);
+            return false;
+        }
+        else if (image.length > 5000000) {
+            toast.error("Image size should be less than 5mb", toastOptions);
+            return false;
+        }
+        else {
+            return true;
         }
     }
+
+    // After Submit Clear All Fields
+
+    const clearInputs = () => {
+        setFullName('')
+        setCustomerId('')
+        setCustomerType('')
+        setEmail('')
+        setPhone('')
+        setGender('')
+        setImage('')
+        setSource('')
+        setNote('')
+    }
+
+    // Create Customer
+
+    const createCustomer = async () => {
+        if (validateForm()) {
+            const data = {
+                customer_id: customerId,
+                customer_type_id: +customerType,
+                full_name: fullName,
+                email: email,
+                phone: +phone,
+                gender: +gender,
+                image: image,
+                source_id: +source,
+                note: note,
+            };
+
+            console.log("data ------------->>>>>>>>>> ", data)
+
+            try {
+                await Post('api/Customer/Add', data)
+                    .then((res) => {
+                        console.log("Customer Create Response ----->>>>>", res)
+                        if (res.data.statusCode === 200) {
+                            toast.success(res.data.message, toastOptions);
+                            clearInputs()
+                        }
+                    })
+            } catch (error) {
+                console.log("Customer Create Error ----->>>>>", error)
+                toast.error('Something went wrong', toastOptions);
+            }
+        }
+    };
 
 
     return (
@@ -151,10 +231,8 @@ const CustomerCreate = () => {
                             </div>
                         </div>
                         <div className="iq-card-body">
-                            <form
+                            <div
                                 className="needs-validation"
-                                novalidate
-                                onSubmit={handleSubmit}
                             >
                                 <div className="form-row">
                                     <div className="col-md-6 mb-3">
@@ -163,7 +241,6 @@ const CustomerCreate = () => {
                                             type="text"
                                             className="form-control"
                                             id="validationCustom01"
-                                            required
                                             value={fullName}
                                             onChange={handleFullName}
                                         />
@@ -174,7 +251,6 @@ const CustomerCreate = () => {
                                             type="text"
                                             className="form-control"
                                             id="validationCustom02"
-                                            required
                                             value={customerId}
                                             onChange={handleCustomerId}
                                         />
@@ -185,7 +261,6 @@ const CustomerCreate = () => {
                                             <select
                                                 className="form-control"
                                                 id="validationCustom04"
-                                                required
                                                 value={customerType}
                                                 onChange={handleCustomerType}
                                             >
@@ -210,7 +285,6 @@ const CustomerCreate = () => {
                                             type="email"
                                             id="validationCustom03"
                                             className="form-control"
-                                            required
                                             value={email}
                                             onChange={handleEmail}
                                         />
@@ -221,7 +295,6 @@ const CustomerCreate = () => {
                                             type="number"
                                             className="form-control"
                                             id="validationCustom04"
-                                            required
                                             value={phone}
                                             onChange={handlePhone}
                                         />
@@ -232,7 +305,6 @@ const CustomerCreate = () => {
                                             <select
                                                 className="form-control"
                                                 id="validationCustom04"
-                                                required
                                                 value={gender}
                                                 onChange={handleGender}
                                             >
@@ -242,8 +314,8 @@ const CustomerCreate = () => {
                                                         return (
                                                             <option
                                                                 key={index}
-                                                                value={item}
-                                                            >{item}</option>
+                                                                value={item.id}
+                                                            >{item.type}</option>
                                                         )
                                                     })
                                                 }
@@ -256,7 +328,6 @@ const CustomerCreate = () => {
                                             type="file"
                                             className="form-control"
                                             id="validationCustom04"
-                                            required
                                             onChange={(e) => handleImage(e)}
                                         />
                                     </div>
@@ -266,7 +337,6 @@ const CustomerCreate = () => {
                                             <select
                                                 className="form-control"
                                                 id="validationCustom04"
-                                                required
                                                 value={source}
                                                 onChange={handleSource}
                                             >
@@ -291,18 +361,19 @@ const CustomerCreate = () => {
                                             className="form-control"
                                             id="validationTextarea"
                                             placeholder="Any Special Note"
-                                            required
                                             value={note}
                                             onChange={handleNote}
                                         ></textarea>
                                     </div>
                                 </div>
-                                <button className="btn btn-primary" type="submit">Submit</button>
-                            </form>
+                                <button
+                                    className="btn btn-primary" onClick={createCustomer}>Submit</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <ToastContainer />
         </div>
     )
 }

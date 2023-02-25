@@ -86,7 +86,7 @@ const SidebarMenu = ({ route, showAnimation, isOpen, setIsOpen, subMenu, menu })
                         {subMenu.map((subMenu, i) => (
                             <motion.div variants={menuItemAnimation} key={i} custom={i}>
                                 <NavLink
-                                    to={'/user/create'}
+                                    // to={'/user/create'}
                                     className="link">
                                     <div className="icon">{subMenu.icon}</div>
                                     <motion.div className="link_text">{subMenu.mod_name}</motion.div>
