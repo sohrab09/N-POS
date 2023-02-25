@@ -1,22 +1,27 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { Get, Post } from '../../../http/http'
 
 
-const stores = [
-    { id: 1, name: 'Mohakhali' },
-    { id: 2, name: 'Banani' },
-    { id: 3, name: 'Gulshan' },
-    { id: 4, name: 'Mohammadpur' },
-]
-
+// const stores = [
+//     { id: 1, name: 'Mohakhali' },
+//     { id: 2, name: 'Banani' },
+//     { id: 3, name: 'Gulshan' },
+//     { id: 4, name: 'Mohammadpur' },
+// ]
 
 
 const UserCreate = () => {
 
     // All States Here
     const [fullName, setFullName] = useState('')
-    const [image, setImage] = useState('')
-    console.log("Image ------------->>>>> ", image)
+    const [userName, setUserName] = useState('')
+    const [email, setEmail] = useState('')
+    const [phone, setPhone] = useState('')
+    const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
+    const [stores, setStores] = useState([])
     const [store, setStore] = useState('')
+    // const [image, setImage] = useState('')
 
 
     // All Handlers Here
@@ -24,31 +29,103 @@ const UserCreate = () => {
         setFullName(e.target.value)
     };
 
+    const handleUserName = (e) => {
+        setUserName(e.target.value)
+    }
+
+    const handleEmail = (e) => {
+        setEmail(e.target.value)
+    }
+
+    const handlePhone = (e) => {
+        setPhone(e.target.value)
+    }
+
+    const handlePassword = (e) => {
+        setPassword(e.target.value)
+    }
+
+    const handleConfirmPassword = (e) => {
+        setConfirmPassword(e.target.value)
+    }
+
     const handleStore = (e) => {
         setStore(e.target.value)
     };
 
-    const handleImage = async (e) => {
-        const file = e.target.files[0]
-        const base64 = await convertBase64(file)
-        console.log("base64 --------->>>>>>>> ", base64)
-        setImage(base64)
+    // const handleImage = async (e) => {
+    //     const file = e.target.files[0]
+    //     const base64 = await convertBase64(file)
+    //     setImage(base64)
+    // }
+
+    // const convertBase64 = (file) => {
+    //     return new Promise((resolve, reject) => {
+    //         const fileReader = new FileReader();
+    //         fileReader.readAsDataURL(file);
+    //         fileReader.onload = () => {
+    //             resolve(fileReader.result);
+    //         };
+    //         fileReader.onerror = (error) => {
+    //             reject(error);
+    //         }
+    //     })
+    // }
+
+
+    // All Functions Here
+
+    useEffect(() => {
+        const getStores = async () => {
+            await Get('api/Store/GetAll')
+                .then(res => {
+                    // console.log("Response: ", res.data.data)
+                    if (res.data.statusCode === 200) {
+                        setStores(res.data.data)
+                    }
+                })
+        }
+        getStores()
+    }, [])
+
+    // After Submit Clear All Fields
+    const clearInputs = () => {
+        setFullName('')
+        setUserName('')
+        setEmail('')
+        setPhone('')
+        setPassword('')
+        setConfirmPassword('')
+        setStore('')
     }
 
-    const convertBase64 = (file) => {
-        return new Promise((resolve, reject) => {
-            const fileReader = new FileReader();
-            fileReader.readAsDataURL(file);
-            fileReader.onload = () => {
-                resolve(fileReader.result);
-            };
-            fileReader.onerror = (error) => {
-                reject(error);
-            }
-        })
+    // Create User
+    const createUser = async () => {
+        const data = {
+            fullName: fullName,
+            phoneNo: phone,
+            email: email,
+            UserName: userName,
+            password: password,
+            confirmPassword: confirmPassword,
+            storeId: +store
+        }
+        console.log("Data ------------>>>>>>> ", data)
+
+        try {
+            await Post('api/Account/Register', data)
+                .then(res => {
+                    // console.log("Response ------------>>>>>  ", res)
+                    if (res.data.statusCode === 200) {
+                        clearInputs()
+                        alert(res.data.message)
+                    }
+                })
+        } catch (error) {
+            console.log("Error ------------>>>>>>> ", error)
+            alert(error.response.data.message)
+        }
     }
-
-
 
 
     return (
@@ -61,105 +138,107 @@ const UserCreate = () => {
                         </div>
                     </div>
                     <div className="iq-card-body">
-                        <form
-                            className="needs-validation"
-                            novalidate
-                        >
+                        <div className="needs-validation">
                             <div className="form-row">
                                 <div className="col-md-6 mb-3">
-                                    <label for="validationCustom01">Full Name</label>
+                                    <label htmlFor="fullName">Full Name</label>
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="validationCustom01"
-                                        required
+                                        id="fullName"
                                         value={fullName}
                                         onChange={handleFullName}
                                     />
                                 </div>
                                 <div className="col-md-6 mb-3">
-                                    <label for="validationCustom02">User Name</label>
+                                    <label htmlFor="userName">User Name</label>
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="validationCustom02"
-                                        required
+                                        id="userName"
+                                        value={userName}
+                                        onChange={handleUserName}
                                     />
                                 </div>
                                 <div className="col-md-6 mb-3">
-                                    <label for="validationCustom03">Email</label>
+                                    <label htmlFor="email">Email</label>
                                     <input
                                         type="email"
-                                        id="validationCustom03"
+                                        id="email"
                                         className="form-control"
-                                        required
+                                        value={email}
+                                        onChange={handleEmail}
                                     />
                                 </div>
                                 <div className="col-md-6 mb-3">
-                                    <label for="validationCustom04">Phone</label>
+                                    <label htmlFor="phone">Phone</label>
                                     <input
                                         type="number"
                                         className="form-control"
-                                        id="validationCustom04"
-                                        required
+                                        id="phone"
+                                        value={phone}
+                                        onChange={handlePhone}
                                     />
                                 </div>
                                 <div className="col-md-6 mb-3">
-                                    <label for="validationCustom04">Password</label>
+                                    <label htmlFor="password">Password</label>
                                     <input
                                         type="password"
                                         className="form-control"
-                                        id="validationCustom04"
-                                        required
+                                        id="password"
+                                        value={password}
+                                        onChange={handlePassword}
                                     />
                                 </div>
                                 <div className="col-md-6 mb-3">
-                                    <label for="validationCustom04">Confirm Password</label>
+                                    <label htmlFor="confirmPassword">Confirm Password</label>
                                     <input
                                         type="password"
                                         className="form-control"
-                                        id="validationCustom04"
-                                        required
+                                        id="confirmPassword"
+                                        value={confirmPassword}
+                                        onChange={handleConfirmPassword}
                                     />
                                 </div>
                                 <div className="col-md-6 mb-3">
-                                    <label for="validationCustomUsername">Store</label>
+                                    <label htmlFor="store">Store</label>
                                     <div className="input-group">
                                         <select
                                             className="form-control"
-                                            id="validationCustom04"
-                                            required
+                                            id="store"
                                             value={store}
                                             onChange={handleStore}
                                         >
-                                            <option selected disabled value="">Choose...</option>
+                                            <option>Choose...</option>
                                             {
                                                 stores.map((item, index) => {
                                                     return (
                                                         <option
                                                             key={index}
-                                                            value={item.id}
+                                                            value={item.id_store}
                                                             onChange={handleStore}
-                                                        >{item.name}</option>
+                                                        >{item.store_name}</option>
                                                     )
                                                 })
                                             }
                                         </select>
                                     </div>
                                 </div>
-                                <div className="col-md-6 mb-3">
-                                    <label for="validationCustom04">Photo</label>
+                                {/* <div className="col-md-6 mb-3">
+                                    <label htmlFor="photo">Photo</label>
                                     <input
                                         type="file"
                                         className="form-control"
-                                        id="validationCustom04"
-                                        required
+                                        id="photo"
                                         onChange={(e) => handleImage(e)}
                                     />
-                                </div>
+                                </div> */}
                             </div>
-                            <button className="btn btn-primary" type="submit">Submit</button>
-                        </form>
+                            <button
+                                className="btn btn-primary"
+                                onClick={createUser}
+                            >Submit</button>
+                        </div>
                     </div>
                 </div>
             </div>

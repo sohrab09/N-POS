@@ -39,7 +39,7 @@ const AppSidebar = () => {
     try {
       Get('api/Menu/GetAll')
         .then(res => {
-          console.log("Res ------------>>>>>>>> ", res)
+          // console.log("Res ------------>>>>>>>> ", res)
           setMenus(res.data.data)
         })
     } catch (error) {
@@ -97,6 +97,7 @@ const AppSidebar = () => {
                 if (subMenu.length > 0) {
                   return (
                     <SidebarMenu
+                      key={index}
                       setIsOpen={setIsOpen}
                       subMenu={subMenu}
                       showAnimation={showAnimation}
