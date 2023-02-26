@@ -7,6 +7,7 @@ import SupplierCreate from './views/pages/SupplierCreate/SupplierCreate';
 import ProductEntryForm from './views/pages/ProductEntryForm/ProductEntryForm';
 import CategoryEntryForm from './views/pages/CategoryEntryForm/CategoryEntryForm';
 import BrandEntryForm from './views/pages/BrandEntryForm/BrandEntryForm';
+import NotFound from './views/pages/NotFound/NotFound';
 
 
 // Containers
@@ -21,16 +22,21 @@ function App() {
     <div>
       <Routes>
         <Route path="/" element={<DefaultLayout />}>
-          <Route path="/user/create" element={<UserCreate />} />
-          <Route path="/customer/create" element={<CustomerCreate />} />
-          <Route path="/supplier/create" element={<SupplierCreate />} />
-          <Route path="/product/entry" element={<ProductEntryForm />} />
-          <Route path="/category/entry" element={<CategoryEntryForm />} />
-          <Route path="/brand/entry" element={<BrandEntryForm />} />
+
+          {/* User Management */}
+          <Route path="/user/userCreate" element={<UserCreate />} />
+          <Route path="/user/customerCreate" element={<CustomerCreate />} />
+          <Route path="/user/supplierCreate" element={<SupplierCreate />} />
+
+          {/* Product Management */}
+          <Route path="/products/productCreate" element={<ProductEntryForm />} />
+          <Route path="/products/categoryCreate" element={<CategoryEntryForm />} />
+          <Route path="/products/brandCreate" element={<BrandEntryForm />} />
         </Route>
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/register" element={<Register />} />
         <Route exact path="/elements" element={<Elements />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   );
