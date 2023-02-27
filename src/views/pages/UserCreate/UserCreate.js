@@ -129,102 +129,101 @@ const UserCreate = () => {
 
 
     return (
-        <div className="row">
-            <div className="col-sm-12 col-lg-12">
-                <div className="iq-card">
-                    <div className="iq-card-header d-flex justify-content-between">
-                        <div className="iq-header-title">
-                            <h4 className="card-title">User Create Form</h4>
-                        </div>
+        <div className="container-fluid p-0 m-0">
+            <div className="iq-card">
+                <div className="iq-card-header d-flex justify-content-between">
+                    <div className="iq-header-title">
+                        <h4 className="card-title">User Create Form</h4>
                     </div>
-                    <div className="iq-card-body">
-                        <div className="needs-validation">
-                            <div className="form-row">
-                                <div className="col-md-6 mb-3">
-                                    <label htmlFor="fullName">Full Name</label>
-                                    <input
-                                        type="text"
+                </div>
+                <div className="iq-card-body">
+                    <div className="needs-validation">
+                        <div className="form-row">
+                            <div className="col-md-6 mb-3">
+                                <label htmlFor="fullName">Full Name</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="fullName"
+                                    value={fullName}
+                                    onChange={handleFullName}
+                                />
+                            </div>
+                            <div className="col-md-6 mb-3">
+                                <label htmlFor="userName">User Name</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="userName"
+                                    value={userName}
+                                    onChange={handleUserName}
+                                />
+                            </div>
+                            <div className="col-md-6 mb-3">
+                                <label htmlFor="email">Email</label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    className="form-control"
+                                    value={email}
+                                    onChange={handleEmail}
+                                />
+                            </div>
+                            <div className="col-md-6 mb-3">
+                                <label htmlFor="phone">Phone</label>
+                                <input
+                                    type="number"
+                                    className="form-control"
+                                    id="phone"
+                                    value={phone}
+                                    onChange={handlePhone}
+                                />
+                            </div>
+                            <div className="col-md-6 mb-3">
+                                <label htmlFor="password">Password</label>
+                                <input
+                                    type="password"
+                                    className="form-control"
+                                    id="password"
+                                    value={password}
+                                    onChange={handlePassword}
+                                />
+                            </div>
+                            <div className="col-md-6 mb-3">
+                                <label htmlFor="confirmPassword">Confirm Password</label>
+                                <input
+                                    type="password"
+                                    className="form-control"
+                                    id="confirmPassword"
+                                    value={confirmPassword}
+                                    onChange={handleConfirmPassword}
+                                />
+                            </div>
+                            <div className="col-md-6 mb-3">
+                                <label htmlFor="store">Store</label>
+                                <div className="input-group">
+                                    <select
                                         className="form-control"
-                                        id="fullName"
-                                        value={fullName}
-                                        onChange={handleFullName}
-                                    />
+                                        id="store"
+                                        value={store}
+                                        onChange={handleStore}
+                                    >
+                                        <option>Choose...</option>
+                                        {
+                                            stores.map((item, index) => {
+                                                return (
+                                                    <option
+                                                        key={index}
+                                                        value={item.id_store}
+                                                        onChange={handleStore}
+                                                    >{item.store_name}</option>
+                                                )
+                                            })
+                                        }
+                                    </select>
                                 </div>
-                                <div className="col-md-6 mb-3">
-                                    <label htmlFor="userName">User Name</label>
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        id="userName"
-                                        value={userName}
-                                        onChange={handleUserName}
-                                    />
-                                </div>
-                                <div className="col-md-6 mb-3">
-                                    <label htmlFor="email">Email</label>
-                                    <input
-                                        type="email"
-                                        id="email"
-                                        className="form-control"
-                                        value={email}
-                                        onChange={handleEmail}
-                                    />
-                                </div>
-                                <div className="col-md-6 mb-3">
-                                    <label htmlFor="phone">Phone</label>
-                                    <input
-                                        type="number"
-                                        className="form-control"
-                                        id="phone"
-                                        value={phone}
-                                        onChange={handlePhone}
-                                    />
-                                </div>
-                                <div className="col-md-6 mb-3">
-                                    <label htmlFor="password">Password</label>
-                                    <input
-                                        type="password"
-                                        className="form-control"
-                                        id="password"
-                                        value={password}
-                                        onChange={handlePassword}
-                                    />
-                                </div>
-                                <div className="col-md-6 mb-3">
-                                    <label htmlFor="confirmPassword">Confirm Password</label>
-                                    <input
-                                        type="password"
-                                        className="form-control"
-                                        id="confirmPassword"
-                                        value={confirmPassword}
-                                        onChange={handleConfirmPassword}
-                                    />
-                                </div>
-                                <div className="col-md-6 mb-3">
-                                    <label htmlFor="store">Store</label>
-                                    <div className="input-group">
-                                        <select
-                                            className="form-control"
-                                            id="store"
-                                            value={store}
-                                            onChange={handleStore}
-                                        >
-                                            <option>Choose...</option>
-                                            {
-                                                stores.map((item, index) => {
-                                                    return (
-                                                        <option
-                                                            key={index}
-                                                            value={item.id_store}
-                                                            onChange={handleStore}
-                                                        >{item.store_name}</option>
-                                                    )
-                                                })
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
-                                {/* <div className="col-md-6 mb-3">
+                            </div>
+                            {/* <div className="col-md-6 mb-3">
                                     <label htmlFor="photo">Photo</label>
                                     <input
                                         type="file"
@@ -233,12 +232,11 @@ const UserCreate = () => {
                                         onChange={(e) => handleImage(e)}
                                     />
                                 </div> */}
-                            </div>
-                            <button
-                                className="btn btn-primary"
-                                onClick={createUser}
-                            >Submit</button>
                         </div>
+                        <button
+                            className="btn btn-primary"
+                            onClick={createUser}
+                        >Submit</button>
                     </div>
                 </div>
             </div>
