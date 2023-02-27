@@ -39,7 +39,7 @@ const AppSidebar = () => {
     try {
       Get('api/Menu/GetAll')
         .then(res => {
-          console.log("Res ------------>>>>>>>> ", res)
+          // console.log("Res ------------>>>>>>>> ", res)
           setMenus(res.data.data)
         })
     } catch (error) {
