@@ -52,6 +52,7 @@ const CustomerCreate = () => {
     const [editGender, setEditGender] = useState('');
     const [editSource, setEditSource] = useState('');
     const [editNote, setEditNote] = useState('');
+    const [csID, setCsID] = useState('');
 
     // Edit Data
 
@@ -273,25 +274,25 @@ const CustomerCreate = () => {
 
 
     // Get All Customer
+    const getAllCustomers = async () => {
+        try {
+            await Get('api/Customer/GetAll')
+                .then((res) => {
+                    // console.log("getAllCustomer", res)
+                    if (res.status === 200) {
+                        setLoading(false)
+                        setAllCustomer(res.data.data)
+                    }
+                })
+        } catch (error) {
+            setLoading(false)
+            console.log("getAllCustomer Error ----->>>>>", error)
+        }
+    };
 
     useEffect(() => {
         setLoading(true)
-        const getAllCustomer = async () => {
-            try {
-                await Get('api/Customer/GetAll')
-                    .then((res) => {
-                        // console.log("getAllCustomer", res)
-                        if (res.status === 200) {
-                            setLoading(false)
-                            setAllCustomer(res.data.data)
-                        }
-                    })
-            } catch (error) {
-                setLoading(false)
-                console.log("getAllCustomer Error ----->>>>>", error)
-            }
-        };
-        getAllCustomer()
+        getAllCustomers()
     }, [])
 
 
@@ -304,9 +305,10 @@ const CustomerCreate = () => {
 
     // Show Edit Modal
     const handleShowEditModal = (customer) => {
-        console.log("customer", customer)
+        // console.log("customer", customer)
         setCsEditModal(!csEditModal);
         setShowEditModal(true);
+        setCsID(customer.id_cib)
         setEditName(customer.full_name)
         setEditCustomerId(customer.customer_id)
         setEditCustomerType(customer.customer_type_id)
@@ -320,6 +322,7 @@ const CustomerCreate = () => {
     // Edit Customer
     const editCustomer = async () => {
         const data = {
+            id_cib: csID,
             customer_id: editCustomerId,
             customer_type_id: +editCustomerType,
             full_name: editName,
@@ -331,13 +334,15 @@ const CustomerCreate = () => {
             note: editNote,
         };
 
-        console.log("data ------------->>>>>>>>>> ", data)
+        // console.log("data ------------->>>>>>>>>> ", data)
         try {
             await Put('api/Customer/Edit', data)
                 .then((res) => {
-                    console.log("Customer Edit Response ----->>>>>", res)
+                    // console.log("Customer Edit Response ----->>>>>", res)
                     if (res.data.statusCode === 200) {
                         toast.success(res.data.message, toastOptions);
+                        getAllCustomers();
+                        setShowEditModal(false);
                     }
                 })
         } catch (error) {
