@@ -96,6 +96,8 @@ const SupplierCreate = () => {
                     if (res.data.statusCode === 200) {
                         alert(res.data.message)
                         clearInputs()
+                        getAllSuppliers();
+                        setShowEditModal(false);
                     }
                 })
         } catch (error) {

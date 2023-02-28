@@ -263,6 +263,8 @@ const CustomerCreate = () => {
                         if (res.data.statusCode === 200) {
                             toast.success(res.data.message, toastOptions);
                             clearInputs()
+                            getAllCustomers();
+                            setShowEditModal(false);
                         }
                     })
             } catch (error) {
