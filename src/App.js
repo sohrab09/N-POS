@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import UserCreate from './views/pages/UserCreate/UserCreate';
 import CustomerCreate from './views/pages/CustomerCreate/CustomerCreate';
 import SupplierCreate from './views/pages/SupplierCreate/SupplierCreate';
+import CustomerType from './views/pages/CustomerType/CustomerType';
 import ProductEntryForm from './views/pages/ProductEntryForm/ProductEntryForm';
 import CategoryEntryForm from './views/pages/CategoryEntryForm/CategoryEntryForm';
 import BrandEntryForm from './views/pages/BrandEntryForm/BrandEntryForm';
@@ -28,6 +29,7 @@ function App() {
           <Route path="/user/userCreate" element={<UserCreate />} />
           <Route path="/user/customerCreate" element={<CustomerCreate />} />
           <Route path="/user/supplierCreate" element={<SupplierCreate />} />
+          <Route path="/user/customerType" element={<CustomerType />} />
 
           {/* Product Management */}
           <Route path="/products/productCreate" element={<ProductEntryForm />} />

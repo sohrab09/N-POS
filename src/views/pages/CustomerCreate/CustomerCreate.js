@@ -275,6 +275,7 @@ const CustomerCreate = () => {
 
     // Get All Customer
     const getAllCustomers = async () => {
+        setLoading(true)
         try {
             await Get('api/Customer/GetAll')
                 .then((res) => {
@@ -291,7 +292,6 @@ const CustomerCreate = () => {
     };
 
     useEffect(() => {
-        setLoading(true)
         getAllCustomers()
     }, [])
 
@@ -352,7 +352,7 @@ const CustomerCreate = () => {
     };
 
     return (
-        <div className="container-fluid">
+        <div className="container-fluid p-0 m-0">
             <div className='d-flex justify-content-between'>
                 <div>
                     <Modal
