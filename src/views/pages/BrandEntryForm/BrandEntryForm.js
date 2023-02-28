@@ -185,7 +185,7 @@ const BrandEntryForm = () => {
                         className="btn btn-primary"
                         onClick={() => handleShowAddModal(!csAddModal)}
                     >
-                        Add Category
+                        Add Brand
                     </Button>
                     <Modal
                         show={showAddModal}
