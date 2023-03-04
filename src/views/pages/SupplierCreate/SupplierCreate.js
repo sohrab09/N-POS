@@ -374,35 +374,42 @@ const SupplierCreate = () => {
 
             <div>
                 {
-                    loading === true ? <div>Loading .....</div> : (<Table id="example" className="display">
-                        <thead style={{ backgroundColor: '#704cb6', color: '#fff', fontSize: '15px', fontWeight: 'bolder' }}>
-                            <tr>
-                                <th>Supplier ID</th>
-                                <th>Full Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {getAllSupplier?.map((supplier, index) => {
-                                return (
-                                    <tr key={index}>
-                                        <td>{supplier.supplierId ? supplier.supplierId : 'null'}</td>
-                                        <td>{supplier.fullName ? supplier.fullName : 'null'}</td>
-                                        <td>{supplier.email ? supplier.email : 'null'}</td>
-                                        <td>{supplier.phone ? supplier.phone : 'null'}</td>
-                                        <td>
-                                            <button
-                                                className="btn btn-primary"
-                                                onClick={() => handleShowEditModal(supplier)}
-                                            >Edit</button>
-                                        </td>
-                                    </tr>
-                                )
-                            })}
-                        </tbody>
-                    </Table>)
+                    loading === true ?
+                        <div className="d-flex justify-content-center align-items-center h-100">
+                            <div className="spinner-border" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                        :
+                        <Table id="example" className="display">
+                            <thead style={{ backgroundColor: '#704cb6', color: '#fff', fontSize: '15px', fontWeight: 'bolder' }}>
+                                <tr>
+                                    <th>Supplier ID</th>
+                                    <th>Full Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {getAllSupplier?.map((supplier, index) => {
+                                    return (
+                                        <tr key={index}>
+                                            <td>{supplier.supplierId ? supplier.supplierId : 'null'}</td>
+                                            <td>{supplier.fullName ? supplier.fullName : 'null'}</td>
+                                            <td>{supplier.email ? supplier.email : 'null'}</td>
+                                            <td>{supplier.phone ? supplier.phone : 'null'}</td>
+                                            <td>
+                                                <button
+                                                    className="btn btn-primary"
+                                                    onClick={() => handleShowEditModal(supplier)}
+                                                >Edit</button>
+                                            </td>
+                                        </tr>
+                                    )
+                                })}
+                            </tbody>
+                        </Table>
                 }
 
             </div>

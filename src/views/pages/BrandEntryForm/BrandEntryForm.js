@@ -238,37 +238,44 @@ const BrandEntryForm = () => {
             {/* Table */}
             <div>
                 {
-                    loading === true ? <div>Loading .....</div> : (<Table id="example" className="display">
-                        <thead style={{ backgroundColor: '#704cb6', color: '#fff', fontSize: '15px', fontWeight: 'bolder' }}>
-                            <tr>
-                                <th>Brand Name</th>
-                                <th>Image</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                getAllBrand.map((brand, index) => {
-                                    return (
-                                        <tr key={index}>
-                                            <td>{brand.brandName}</td>
-                                            <td>
-                                                <img src={brand.image} alt="brandImage" />
-                                            </td>
-                                            <td>
-                                                <button
-                                                    className="btn btn-primary"
-                                                    onClick={() => handleShowEditModal(brand)}
-                                                >
-                                                    Edit
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    )
-                                })
-                            }
-                        </tbody>
-                    </Table>)
+                    loading === true ?
+                        <div className="d-flex justify-content-center align-items-center h-100">
+                            <div className="spinner-border" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                        :
+                        <Table id="example" className="display">
+                            <thead style={{ backgroundColor: '#704cb6', color: '#fff', fontSize: '15px', fontWeight: 'bolder' }}>
+                                <tr>
+                                    <th>Brand Name</th>
+                                    <th>Image</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    getAllBrand.map((brand, index) => {
+                                        return (
+                                            <tr key={index}>
+                                                <td>{brand.brandName}</td>
+                                                <td>
+                                                    <img src={brand.image} alt="brandImage" />
+                                                </td>
+                                                <td>
+                                                    <button
+                                                        className="btn btn-primary"
+                                                        onClick={() => handleShowEditModal(brand)}
+                                                    >
+                                                        Edit
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        )
+                                    })
+                                }
+                            </tbody>
+                        </Table>
                 }
 
             </div>
