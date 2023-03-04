@@ -8,6 +8,7 @@ import CustomerType from './views/pages/CustomerType/CustomerType';
 import ProductEntryForm from './views/pages/ProductEntryForm/ProductEntryForm';
 import CategoryEntryForm from './views/pages/CategoryEntryForm/CategoryEntryForm';
 import BrandEntryForm from './views/pages/BrandEntryForm/BrandEntryForm';
+import UnitEntryForm from './views/pages/UnitEntryForm/UnitEntryForm';
 import Attributes from './views/pages/Attributes/Attributes';
 import NotFound from './views/pages/NotFound/NotFound';
 
@@ -35,6 +36,7 @@ function App() {
           <Route path="/products/productCreate" element={<ProductEntryForm />} />
           <Route path="/products/categoryCreate" element={<CategoryEntryForm />} />
           <Route path="/products/brandCreate" element={<BrandEntryForm />} />
+          <Route path="/products/unitCreate" element={<UnitEntryForm />} />
           <Route path="/products/attributesCreate" element={<Attributes />} />
         </Route>
         <Route exact path="/login" element={<Login />} />
