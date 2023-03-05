@@ -45,7 +45,7 @@ const Attributes = () => {
     };
 
     const handleEditButtonClick = () => {
-        setEditInputValues([...editInputValues, '']);
+        setEditInputValues([...editInputValues, { attributeName: '' }]);
     };
 
     const handleInputChange = (index, event) => {
@@ -111,8 +111,11 @@ const Attributes = () => {
             return;
         }
         const inp = editInputValues.map((item) => {
+            // console.log("item --------->>>>>>>> ", item)
             return {
-                attributeName: item
+                attributeName: item.attributeName ? item.attributeName : item,
+                attributeId: item.attributeId ? item.attributeId : editAttributeId,
+                id: item.id ? item.id : 0
             }
         })
 
@@ -172,7 +175,7 @@ const Attributes = () => {
 
     // Show Edit Modal
     const handleShowEditModal = (attribute) => {
-        // console.log("attribute --------->>>>>>>> ", attribute)
+        console.log("attribute --------->>>>>>>> ", attribute)
         setCsEditModal(!csEditModal);
         setShowEditModal(true);
         const id = attribute.id;
@@ -180,7 +183,7 @@ const Attributes = () => {
         try {
             Get(`api/Attribute/GetById?id=${id}`)
                 .then(res => {
-                    console.log(`res Edit Attribute--------->>>>>>>> `, res)
+                    // console.log(`res Edit Attribute--------->>>>>>>> `, res)
                     if (res.data.statusCode === 200) {
                         setEditAttributeId(res.data.data.id)
                         setEditAttributeName(res.data.data.attributeName);
