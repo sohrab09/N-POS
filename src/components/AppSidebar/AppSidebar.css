@@ -35,11 +35,12 @@ main {
 .logo {
   font-size: 25px;
   line-height: 0;
-  color: hsl(253deg 61% 85%);
+  color: #7a52ff;
+  font-weight: bolder;
 }
 .bars {
   width: 30px;
-  color: hsl(253deg 61% 85%);
+  color: #7a52ff;
   font-size: 30px;
 }
 .hide {
@@ -56,7 +57,7 @@ main {
 
 .link {
   display: flex;
-  background-color: #ccc1f0;
+  background-color: #6546d2;
   color: #ffffff;
   gap: 10px;
   padding: 5px 10px;
@@ -68,13 +69,13 @@ main {
 .link:hover {
   text-decoration: none;
   border-right: 4px solid white;
-  background: hsl(253deg 61% 55%);
+  background: #ccc1f0;
   transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
   color: #fff;
 }
 .active {
   border-right: 4px solid white;
-  background: hsl(253deg 61% 55%);
+  background: #ccc1f0;
   transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
   border-radius: 0px 10px 10px 0px;
 }
@@ -85,12 +86,22 @@ main {
 
 .menu {
   display: flex;
-  color: hsl(253deg 61% 85%);
+  color: #9d80ff;
+  font-weight: bolder;
   padding: 5px 10px;
   border-right: 4px solid transparent;
   transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
   justify-content: space-between;
 }
+
+/* Active Menu  */
+.active_menu {
+  border-right: 4px solid white;
+  background: #ccc1f0;
+  transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+  border-radius: 0px 10px 10px 0px;
+}
+
 .menu_item {
   display: flex;
   gap: 10px;

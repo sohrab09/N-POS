@@ -13,6 +13,9 @@ const CategoryEntryForm = () => {
     const [getParentCategoryId, setGetParentCategoryId] = useState([]);
     const [parentCategoryId, setParentCategoryId] = useState('');
     const [getAllCategory, setGetAllCategory] = useState([]);
+
+    console.log("getAllCategory --------->>>>>>>> ", getAllCategory)
+
     const [csAddModal, setCsAddModal] = useState(true);
     const [showAddModal, setShowAddModal] = useState(false);
     const [csEditModal, setCsEditModal] = useState(true);
@@ -314,7 +317,7 @@ const CategoryEntryForm = () => {
                     loading === true ? <div>Loading .....</div> : (<Table id="example" className="display">
                         <thead style={{ backgroundColor: '#704cb6', color: '#fff', fontSize: '15px', fontWeight: 'bolder' }}>
                             <tr>
-                                <th>Parent Category Id</th>
+                                <th>S/N</th>
                                 <th>Category Name</th>
                                 <th>Action</th>
                             </tr>
@@ -323,8 +326,8 @@ const CategoryEntryForm = () => {
                             {getAllCategory?.map((category, index) => {
                                 return (
                                     <tr key={index}>
-                                        <td>{category.parentCategoryId ? category.parentCategoryId : "null"}</td>
-                                        <td>{category.categoryName ? category.categoryName : "null"}</td>
+                                        <td>{index + 1}</td>
+                                        <td>{category.categoryName}</td>
                                         <td>
                                             <button
                                                 className="btn btn-primary"

@@ -845,6 +845,7 @@ const ProductEntryForm = () => {
                     loading === true ? <div>Loading .....</div> : (<Table id="example" className="display">
                         <thead style={{ backgroundColor: '#704cb6', color: '#fff', fontSize: '15px', fontWeight: 'bolder' }}>
                             <tr>
+                                <th>S/N</th>
                                 <th>Product Code</th>
                                 <th>Product Name</th>
                                 <th>Sales Price</th>
@@ -859,6 +860,7 @@ const ProductEntryForm = () => {
                             {getAllProduct?.map((product, index) => {
                                 return (
                                     <tr key={index}>
+                                        <td>{index + 1}</td>
                                         <td>{product.productCode}</td>
                                         <td>{product.productName}</td>
                                         <td>{product.sellingPrice}</td>

@@ -43,6 +43,7 @@ const CustomerType = () => {
           <Table>
             <thead style={{ backgroundColor: '#704cb6', color: '#fff', fontSize: '15px', fontWeight: 'bolder' }}>
               <tr>
+                <th>S/N</th>
                 <th>Customer Type</th>
                 <th>Discount</th>
               </tr>
@@ -52,6 +53,7 @@ const CustomerType = () => {
                 getCustomerType.map((item, index) => {
                   return (
                     <tr key={index}>
+                      <td>{index + 1}</td>
                       <td>{item.name}</td>
                       <td>{item.discount}</td>
                     </tr>

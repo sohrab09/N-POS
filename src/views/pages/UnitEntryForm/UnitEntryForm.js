@@ -229,6 +229,7 @@ const UnitEntryForm = () => {
                         <Table id="example" className="display">
                             <thead style={{ backgroundColor: '#704cb6', color: '#fff', fontSize: '15px', fontWeight: 'bolder' }}>
                                 <tr>
+                                    <th>S/N</th>
                                     <th>Unit Name</th>
                                     <th>Action</th>
                                 </tr>
@@ -238,6 +239,7 @@ const UnitEntryForm = () => {
                                     getAllUnit.map((unit, index) => {
                                         return (
                                             <tr key={index}>
+                                                <td>{index + 1}</td>
                                                 <td>{unit.unitName}</td>
                                                 <td>
                                                     <button

@@ -384,21 +384,27 @@ const SupplierCreate = () => {
                         <Table id="example" className="display">
                             <thead style={{ backgroundColor: '#704cb6', color: '#fff', fontSize: '15px', fontWeight: 'bolder' }}>
                                 <tr>
+                                    <th>S/N</th>
                                     <th>Supplier ID</th>
                                     <th>Full Name</th>
                                     <th>Email</th>
                                     <th>Phone</th>
+                                    <th>Balance</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {getAllSupplier?.map((supplier, index) => {
+                                {getAllSupplier?.reverse().map((supplier, index) => {
+                                    const supplierId = +supplier.supplierId;
+
                                     return (
                                         <tr key={index}>
-                                            <td>{supplier.supplierId ? supplier.supplierId : 'null'}</td>
-                                            <td>{supplier.fullName ? supplier.fullName : 'null'}</td>
-                                            <td>{supplier.email ? supplier.email : 'null'}</td>
-                                            <td>{supplier.phone ? supplier.phone : 'null'}</td>
+                                            <td>{index + 1}</td>
+                                            <td>{supplierId}</td>
+                                            <td>{supplier.fullName}</td>
+                                            <td>{supplier.email}</td>
+                                            <td>{supplier.phone}</td>
+                                            <td>{supplier.balance}</td>
                                             <td>
                                                 <button
                                                     className="btn btn-primary"

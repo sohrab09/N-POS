@@ -85,7 +85,7 @@ const Attributes = () => {
             attributeName: attributeName,
             attributeDetails: inp
         }
-        console.log("data --------->>>>>>>> ", data)
+        // console.log("data --------->>>>>>>> ", data)
 
         try {
             Post('api/Attribute/Add', data)
@@ -391,7 +391,9 @@ const Attributes = () => {
                     loading === true ? <div>Loading .....</div> : (<Table id="example" className="display">
                         <thead style={{ backgroundColor: '#704cb6', color: '#fff', fontSize: '15px', fontWeight: 'bolder' }}>
                             <tr>
+                                <th>S/N</th>
                                 <th>Attribute Name</th>
+                                <th>Attribute Values</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -400,7 +402,19 @@ const Attributes = () => {
                                 getAllAttributes.map((attribute, index) => {
                                     return (
                                         <tr key={index}>
+                                            <td>{index + 1}</td>
                                             <td>{attribute.attributeName}</td>
+                                            <td>
+                                                {
+                                                    attribute.attributeDetails.map((attributeDetail, index) => {
+                                                        return (
+                                                            <div key={index}>
+                                                                <span>{attributeDetail.attributeName}</span>
+                                                            </div>
+                                                        )
+                                                    })
+                                                }
+                                            </td>
                                             <td>
                                                 <button
                                                     className="btn btn-primary"

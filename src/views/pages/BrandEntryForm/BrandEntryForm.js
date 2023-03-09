@@ -248,20 +248,20 @@ const BrandEntryForm = () => {
                         <Table id="example" className="display">
                             <thead style={{ backgroundColor: '#704cb6', color: '#fff', fontSize: '15px', fontWeight: 'bolder' }}>
                                 <tr>
+                                    <th>S/N</th>
                                     <th>Brand Name</th>
-                                    <th>Image</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {
                                     getAllBrand.map((brand, index) => {
+                                        console.log("brand ----->>>>>", brand)
                                         return (
                                             <tr key={index}>
+                                                <td>{index + 1}</td>
                                                 <td>{brand.brandName}</td>
-                                                <td>
-                                                    <img src={brand.image} alt="brandImage" />
-                                                </td>
+
                                                 <td>
                                                     <button
                                                         className="btn btn-primary"

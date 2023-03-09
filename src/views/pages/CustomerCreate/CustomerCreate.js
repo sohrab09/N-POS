@@ -685,39 +685,48 @@ const CustomerCreate = () => {
             <br />
             <div>
                 {
-                    loading === true ? <div>Loading .....</div> : (<Table id="example" className="display">
-                        <thead style={{ backgroundColor: '#704cb6', color: '#fff', fontSize: '15px', fontWeight: 'bolder' }}>
-                            <tr>
-                                <th>Customer ID</th>
-                                <th>Full Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Balance</th>
-                                <th>Points</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {getAllCustomer.map((customer, index) => {
-                                return (
-                                    <tr key={index}>
-                                        <td>{customer.customer_id ? customer.customer_id : 'null'}</td>
-                                        <td>{customer.full_name ? customer.full_name : 'null'}</td>
-                                        <td>{customer.email ? customer.email : 'null'}</td>
-                                        <td>{customer.phone ? customer.phone : 'null'}</td>
-                                        <td>{customer.balance ? customer.balance : 'null'}</td>
-                                        <td>{customer.points ? customer.points : 'null'}</td>
-                                        <td>
-                                            <button
-                                                className="btn btn-primary"
-                                                onClick={() => handleShowEditModal(customer)}
-                                            >Edit</button>
-                                        </td>
-                                    </tr>
-                                )
-                            })}
-                        </tbody>
-                    </Table>)
+                    loading === true ?
+                        <div className="d-flex justify-content-center align-items-center h-100">
+                            <div className="spinner-border" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                        :
+                        <Table>
+                            <thead style={{ backgroundColor: '#704cb6', color: '#fff', fontSize: '15px', fontWeight: 'bolder' }}>
+                                <tr>
+                                    <th>S/N</th>
+                                    <th>Customer ID</th>
+                                    <th>Full Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Balance</th>
+                                    <th>Points</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {getAllCustomer.map((customer, index) => {
+                                    return (
+                                        <tr key={index}>
+                                            <td>{index + 1}</td>
+                                            <td>{customer.customer_id}</td>
+                                            <td>{customer.full_name}</td>
+                                            <td>{customer.email}</td>
+                                            <td>{customer.phone}</td>
+                                            <td>{customer.balance}</td>
+                                            <td>{customer.points}</td>
+                                            <td>
+                                                <button
+                                                    className="btn btn-primary"
+                                                    onClick={() => handleShowEditModal(customer)}
+                                                >Edit</button>
+                                            </td>
+                                        </tr>
+                                    )
+                                })}
+                            </tbody>
+                        </Table>
                 }
 
             </div>
